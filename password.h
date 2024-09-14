@@ -25,4 +25,5 @@ inline int Decrypt(std::string &s,int key) {
     }
     return OK;
 }
+
 #endif
