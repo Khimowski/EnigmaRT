@@ -114,7 +114,7 @@ inline int ListPrint (ListNode* &L) {
         count++;
         std::cout<<std::left<<std::setw(5)<<count;
         std::cout<<std::left<<std::setw(20)<<p->data.website;
-        std::cout<<std::left<<std::setw(30)<<p->data.password<<std::endl;
+        std::cout<<p->data.password<<std::endl;
     }
     return OK;
 }

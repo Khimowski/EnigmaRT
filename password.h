@@ -4,6 +4,8 @@
 // IDE : JetBrains CLion
 //
 #ifndef PASSWORD_H
+#define PASSWORD_H
+
 #define OK 1
 #define ERROR -1
 #define NOTFOUND 0
