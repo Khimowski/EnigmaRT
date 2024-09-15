@@ -7,7 +7,6 @@
 #include "password.h"
 #include "data.h"
 #include "menu.h"
-#include "rotor.h"
 
 #define OK 1
 #define ERROR -1
@@ -21,7 +20,7 @@ int main() {
     system("chcp 65001");
 
     ListInit(head);
-    INIT_ENIGMA();
+    ENIGMA_INIT();
     while(TRUE) {
         MAIN_MENU();
         int choice;
@@ -55,7 +54,13 @@ int main() {
                 ENIGMA_MENU();
                 cin>>choice;
                 if(choice == 1) {
-                    NEW_ENIGMA();
+                    OPE_ENIGMA_ADD();
+                }
+                else if(choice == 2) {
+                    OPE_ENIGMA_PRT();
+                }
+                else if(choice == 3) {
+                    OPE_ENIGMA_DEL();
                 }
                 else if(choice == 4) {
                     break;

@@ -146,13 +146,13 @@ inline void OPE_PWD_DEL() { //删除密码 PWD_DELETE
 
 /////恩尼格码相关/////
 
-inline void INIT_ENIGMA() {
+inline void ENIGMA_INIT() {
     for(int i = 0; i < 100; i++) {
         ENIGMA[i].amount = -1;
     }
 }
 
-inline void NEW_ENIGMA() {
+inline void OPE_ENIGMA_ADD() {
     std::cout<<"请输入转子总数"<<std::endl;
     std::cin>>ENIGMA[rotor_amt].amount;
     for(int i = 0; i < ENIGMA[rotor_amt].amount; i++) {
@@ -164,9 +164,28 @@ inline void NEW_ENIGMA() {
     std::cout<<"添加成功"<<std::endl;
 }
 
-inline void PRT_ENIGMA() {
-    for(int i = 0; i < rotor_amt; i++) {
-
+inline void OPE_ENIGMA_PRT() {
+    std::cout<<"编号  "<<"转子数量 "<<"转子"<<std::endl;
+    for(int i = 1; i < rotor_amt; i++) {
+        std::cout<<std::left<<std::setw(5)<<i;
+        std::cout<<std::left<<std::setw(8)<<ENIGMA[i].amount;
+        for(int j = 0; j < ENIGMA[i].amount; j++) {
+            std::cout<<ENIGMA[i].rotor[j]<<" ";
+        }
+        std::cout<<std::endl;
     }
+}
+
+inline void OPE_ENIGMA_DEL() {
+    int no;
+    std::cout<<"要删除几号恩尼格码"<<std::endl;
+    std::cin>>no;
+    for(int i = no ; i < rotor_amt; i++) {
+        ENIGMA[i].amount = ENIGMA[i+1].amount;
+        for(int j = 0; j < ENIGMA[i].amount; j++) {
+            ENIGMA[i].rotor[j] = ENIGMA[i+1].rotor[j];
+        }
+    }
+    rotor_amt--;
 }
 #endif //MENU_H
