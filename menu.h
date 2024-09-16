@@ -11,6 +11,7 @@
 #define NOTFOUND 0
 #define TRUE 1
 #define FALSE 0
+#include <random>
 
 class CENIGMA {
 public:
@@ -70,11 +71,18 @@ inline void OPE_PWD_ADD() { //添加新密码 PWD_ADD
     std::cin>>password;
     std::cout<<"要使用几号恩格尼码"<<std::endl;
     std::cin>>no;
+
     std::string stemp;
+    std::default_random_engine SD;
+    std::uniform_int_distribution<int> num(0,ENIGMA[no].amount-1);
+    SD.seed(time(nullptr));
+    int itemp;
     for(int i = 0; i < ENIGMA[no].amount; i++) {
-        stemp += std::to_string(i);
-        Encrypt(password,ENIGMA[no].rotor[i]);
+        itemp = num(SD);
+        stemp += std::to_string(itemp);
+        Encrypt(password,ENIGMA[no].rotor[itemp]);
     }
+
     password += stemp;
     p = new ListNode();
     if(ListAdd(head,p,password,website) == OK) {
@@ -96,6 +104,7 @@ inline void OPE_PWD_SEE() { //查询所有密码 PWD_SEE
 
 inline void OPE_PWD_DRT() { //解密密码 PWD_DECRYPT
     int no,reply;
+    int key[8];
     std::string _temp;
     std::cout<<"要解密几号密码"<<std::endl;
     int num;
@@ -112,11 +121,19 @@ inline void OPE_PWD_DRT() { //解密密码 PWD_DECRYPT
         std::cout<<"使用几号恩尼格码解密"<<std::endl;
         std::cin>>no;
         std::cout<<"解密前密码为:"<<_temp<<std::endl;
-        for(int i = 0; i < ENIGMA[no].amount; i++) {
+        int i = _temp.length()-1;
+        for(int j = 0;j < ENIGMA[no].amount ;j++) {
+            // std::cout<<"前_temp:"<<_temp<<std::endl;
+            key[j] = _temp[i] - 48;
             _temp.pop_back();
+
+            // std::cout<<"后_temp:"<<_temp<<std::endl;
+            i--;
         }
-        for(int i = ENIGMA[no].amount-1; i >= 0; i--) {
-            Decrypt(_temp,ENIGMA[no].rotor[i]);
+
+        for(int i = 0;i < ENIGMA[no].amount;i++) {
+            Decrypt(_temp,ENIGMA[no].rotor[key[i]]);
+            // std::cout<<"目前密码为"<<_temp<<"解密码为"<<key[i]<<std::endl;
         }
         std::cout<<"解密后密码为:"<<_temp<<std::endl;
     }
@@ -165,7 +182,7 @@ inline void OPE_ENIGMA_ADD() {
 }
 
 inline void OPE_ENIGMA_PRT() {
-    std::cout<<"编号  "<<"转子数量 "<<"转子"<<std::endl;
+    std::cout<<"编号  "<<"转子数量  "<<"转子"<<std::endl;
     for(int i = 1; i < rotor_amt; i++) {
         std::cout<<std::left<<std::setw(5)<<i;
         std::cout<<std::left<<std::setw(8)<<ENIGMA[i].amount;
