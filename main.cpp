@@ -70,11 +70,43 @@ int main() {
                 }
             }
         }
+        else if(choice == 3) {
+            while(TRUE) {
+                LOCATIZATION_MENU();
+                cin>>choice;
+                if(choice == 1) {
+                    OPE_LOC_SAVE();
+                }
+                else if(choice == 2) {
+                    OPE_LOC_LOAD();
+                }
+                else if(choice == 3) {
+                    break;
+                }
+                else {
+                    NOTFD();
+                }
+            }
+        }
         // else if(choice == 999) {
         //     OPE_TEST();
         // }
-        else if(choice == 3) {
-            break;
+        else if(choice == 4) {
+            if(OPE_LOC_AUTOSAVE() != OK) {
+                cout<<"自动保存失败，是否继续退出"<<endl;
+                cout<<"1.是 2.否 3.进行保存后退出"<<endl;
+                cin>>choice;
+                if(choice == 1) {
+                    break;
+                }
+                else if(choice == 3) {
+                    OPE_LOC_SAVE();
+                    break;
+                }
+            }
+            else {
+                break;
+            }
         }
         else {
             NOTFD();

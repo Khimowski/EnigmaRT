@@ -16,14 +16,14 @@
 
 inline int Encrypt(std::string &s,int key) {
     for(int i=0;i<s.size();i++) {
-        s[i] = (char)(((int)s[i] + key) % 128);
+        s[i] = (char)(((int)s[i] + key) % 127);
     }
     return OK;
 }
 
 inline int Decrypt(std::string &s,int key) {
     for(int i=0;i<s.size();i++) {
-        s[i] = (char)(((int)s[i] - key + 128) % 128);
+        s[i] = (char)(((int)s[i] - key + 127) % 127);
     }
     return OK;
 }

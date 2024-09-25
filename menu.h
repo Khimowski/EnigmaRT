@@ -11,6 +11,7 @@
 #define NOTFOUND 0
 #define TRUE 1
 #define FALSE 0
+
 #include <random>
 
 class CENIGMA {
@@ -32,7 +33,8 @@ inline void MAIN_MENU() {
     std::cout<<"请输入您的操作"<<std::endl;
     std::cout<<"1.密码相关菜单"<<std::endl;
     std::cout<<"2.恩尼格码菜单"<<std::endl;
-    std::cout<<"3.退出程序"<<std::endl;
+    std::cout<<"3.本地存储菜单"<<std::endl;
+    std::cout<<"4.退出程序"<<std::endl;
 }
 
 inline void PWD_MENU() {
@@ -52,8 +54,57 @@ inline void ENIGMA_MENU() {
     std::cout<<"4.返回上级"<<std::endl;
 }
 
+inline void LOCATIZATION_MENU() {
+    std::cout<<"请输入您的操作"<<std::endl;
+    std::cout<<"1.保存"<<std::endl;
+    std::cout<<"2.读取"<<std::endl;
+    std::cout<<"3.返回上级"<<std::endl;
+}
+
 inline void NOTFD() { //未找到 NOTFOUND
     std::cout<<"未找到该操作"<<std::endl;
+}
+
+
+
+
+
+
+/////本地化相关/////
+
+inline void OPE_LOC_SAVE() {
+    std::cout<<"请输入文件地址"<<std::endl;
+    std::string path;
+    std::cin>>path;
+    int reply;
+    reply = ListSAVE(head,path);
+    if (reply == OK) {
+        std::cout<<"保存成功"<<std::endl;
+    }
+    else {
+        std::cout<<"保存失败"<<std::endl;
+    }
+}
+
+inline int OPE_LOC_AUTOSAVE() {
+    std::string path = "AUTOSAVE.dat";
+    int reply;
+    reply = ListSAVE(head,path);
+    return reply;
+}
+
+inline void OPE_LOC_LOAD() {
+    std::cout<<"请输入文件地址"<<std::endl;
+    std::string path;
+    std::cin>>path;
+    int reply;
+    reply = ListLOAD(head,path);
+    if (reply == OK) {
+        std::cout<<"读取成功"<<std::endl;
+    }
+    else {
+        std::cout<<"读取失败"<<std::endl;
+    }
 }
 
 
@@ -88,9 +139,9 @@ inline void OPE_PWD_ADD() { //添加新密码 PWD_ADD
     //添加变化位
     int itemp2 = 0;
     for(int i = 0; i < password.length(); i++) {
-        if(password[i] < 32) {
+        if(password[i] < 33) {
             // std::cout<<"变化前"<<password[i];
-            password[i] = password[i] + 32;
+            password[i] = password[i] + 33;
             // std::cout<<"变换后"<<password[i];
             if(i < 10) {
                 stemp2 += "0";
@@ -170,7 +221,7 @@ inline void OPE_PWD_DRT() { //解密密码 PWD_DECRYPT
             _temp.pop_back();
             // std::cout<<"提取后:"<<_temp<<std::endl;
             // std::cout<<"位置:"<<pos<<std::endl;
-            _temp[pos] -= 32;
+            _temp[pos] -= 33;
             // std::cout<<"变化后:"<<_temp<<std::endl;
         }
 

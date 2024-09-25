@@ -13,6 +13,7 @@
 
 #include <iomanip>
 #include <iostream>
+#include <fstream>
 #include <ostream>
 #include <string>
 #include <utility>
@@ -28,6 +29,8 @@ class ListNode {
     DT data;
     ListNode* next{};
 };
+
+ListNode* c = NULL;
 
 inline int ListInit (ListNode* &L) {
     L = new ListNode;
@@ -143,4 +146,62 @@ inline int WEBsearch (ListNode* &L,const std::string& web,int &i) {
     return NOTFOUND;
 }
 
+inline int GetLen (ListNode* &L,int &len) {
+    if(!L) return ERROR;
+    len = 0;
+    ListNode *p;
+    p = L;
+    while(p -> next != NULL) {
+        p = p -> next;
+        len++;
+    }
+
+    return OK;
+
+}
+
+
+
+/////本地化相关/////
+inline int ListSAVE(ListNode* &L, std::string &way) {
+    if(!L) return ERROR;
+    std::ofstream SAVE;
+    SAVE.open(way, std::ios::out | std::ios::trunc);
+    if (SAVE.is_open()) {
+        ListNode *p;
+        p = L;
+        while(p -> next != NULL) {
+            p = p -> next;
+            SAVE<<p->data.website<<" "<<p->data.password<<std::endl;
+        }
+        SAVE<<"END MADEBYZREDTEA"<<std::endl;
+        SAVE.close();
+        return OK;
+    }
+    else {
+        return ERROR;
+    }
+}
+
+inline int ListLOAD(ListNode* &L, std::string &way) {
+    if(!L) return ERROR;
+    std::ifstream READ;
+    READ.open(way, std::ios::in);
+    if (READ.is_open()) {
+        std::string PWD,WEB;
+        while(TRUE) {
+            READ>>WEB>>PWD;
+            std::cout<<"WEB="<<WEB<<"PWD="<<PWD<<std::endl;
+            if(WEB == "END" && PWD == "MADEBYZREDTEA" || PWD == "MADEBYZREDTEA\n") {
+                return OK;
+            }
+            c = new ListNode;
+            ListAdd(L,c,PWD,WEB);
+        }
+        READ.close();
+    }
+    else {
+        return ERROR;
+    }
+}
 #endif
