@@ -72,18 +72,41 @@ inline void OPE_PWD_ADD() { //添加新密码 PWD_ADD
     std::cout<<"要使用几号恩格尼码"<<std::endl;
     std::cin>>no;
 
-    std::string stemp;
+    std::string stemp1,stemp2;
     std::default_random_engine SD;
     std::uniform_int_distribution<int> num(0,ENIGMA[no].amount-1);
     SD.seed(time(nullptr));
+
+    //添加加密位
     int itemp;
     for(int i = 0; i < ENIGMA[no].amount; i++) {
         itemp = num(SD);
-        stemp += std::to_string(itemp);
+        stemp1 += std::to_string(itemp);
         Encrypt(password,ENIGMA[no].rotor[itemp]);
     }
 
-    password += stemp;
+    //添加变化位
+    int itemp2 = 0;
+    for(int i = 0; i < password.length(); i++) {
+        if(password[i] < 32) {
+            // std::cout<<"变化前"<<password[i];
+            password[i] = password[i] + 32;
+            // std::cout<<"变换后"<<password[i];
+            if(i < 10) {
+                stemp2 += "0";
+            }
+            stemp2 += std::to_string(i);
+            itemp2++;
+        }
+
+    }
+
+    password += stemp2;
+    if(itemp2 < 10) {
+        password += "0";
+    }
+    password += std::to_string(itemp2);
+    password += stemp1;
     p = new ListNode();
     if(ListAdd(head,p,password,website) == OK) {
         std::cout<<"新建完成"<<std::endl;
@@ -122,6 +145,8 @@ inline void OPE_PWD_DRT() { //解密密码 PWD_DECRYPT
         std::cin>>no;
         std::cout<<"解密前密码为:"<<_temp<<std::endl;
         int i = _temp.length()-1;
+
+        //提取加密位
         for(int j = 0;j < ENIGMA[no].amount ;j++) {
             // std::cout<<"前_temp:"<<_temp<<std::endl;
             key[j] = _temp[i] - 48;
@@ -129,6 +154,24 @@ inline void OPE_PWD_DRT() { //解密密码 PWD_DECRYPT
 
             // std::cout<<"后_temp:"<<_temp<<std::endl;
             i--;
+        }
+
+        //提取变化位
+        int len = _temp.length();
+        int itemp = _temp[len-1] - 48 + 10 * (_temp[len-2] -48);
+        _temp.pop_back();
+        _temp.pop_back();
+
+        for(int k = 0;k < itemp;k++) {
+            // std::cout<<"变化前:"<<_temp<<std::endl;
+            int len = _temp.length();
+            int pos = _temp[len-1] - 48 + 10 * (_temp[len-2] -48);
+            _temp.pop_back();
+            _temp.pop_back();
+            // std::cout<<"提取后:"<<_temp<<std::endl;
+            // std::cout<<"位置:"<<pos<<std::endl;
+            _temp[pos] -= 32;
+            // std::cout<<"变化后:"<<_temp<<std::endl;
         }
 
         for(int i = 0;i < ENIGMA[no].amount;i++) {

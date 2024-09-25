@@ -42,7 +42,7 @@ inline int ListAdd (ListNode* &L,ListNode* &Node,const std::string& pwd,const st
     if(!L) return ERROR;
     ListNode *p;
     p=L;
-    while(p->next != NULL && !p) {
+    while(p->next != NULL) {
         p=p->next;
     }
 
